@@ -1,2 +1,0 @@
-pygsheets==2.0.5
-aiogram==2.23.1

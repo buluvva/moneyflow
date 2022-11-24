@@ -13,7 +13,6 @@ async def test_db(message: types.Message):
                       host="192.168.10.100",
                       port="5432")
     cur = conn.cursor()
-    conn.commit()
     res = cur.execute("SELECT * FROM test").fetchall()
     conn.commit()
     conn.close()

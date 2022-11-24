@@ -1,10 +1,11 @@
 sudo docker network create --subnet 192.168.10.0/24 bot-net-dev
 
 sudo docker run --rm \
---name postgres \
+--name postgres-dev \
 -e POSTGRES_PASSWORD=admin \
 -e POSTGRES_USER=admin \
 -e POSTGRES_DB=data \
+-t dev \
 -d \
 --network bot-net-dev \
 --ip 192.168.10.100 \

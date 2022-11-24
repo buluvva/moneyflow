@@ -10,10 +10,12 @@ async def test_db(message: types.Message):
     conn = ps.connect(dbname="data",
                       user="admin",
                       password="admin",
-                      host="127.0.0.1",
+                      host="192.168.10.100",
                       port="5432")
     cur = conn.cursor()
+    conn.commit()
     res = cur.execute("SELECT * FROM test").fetchall()
+    conn.commit()
     conn.close()
     await message.answer(res)
 

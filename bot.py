@@ -2,6 +2,7 @@ from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher.filters import Text
 from resources.models import User, datetime
 import psycopg as ps
+
 bot = Bot(token='5843791019:AAEYiP_dHfBXTq_bxT_frvPdo1x0OrpXTyg')
 dp = Dispatcher(bot)
 
@@ -11,7 +12,7 @@ async def test_db(message: types.Message):
     conn = ps.connect(dbname="data",
                       user="admin",
                       password="admin",
-                      host="0.0.0.0",
+                      host="192.168.10.100",
                       port="5432")
     cur = conn.cursor()
     res = cur.execute("SELECT * FROM test").fetchall()
@@ -31,7 +32,7 @@ async def cmd_start(message: types.Message):
     conn = ps.connect(dbname="data",
                       user="admin",
                       password="admin",
-                      host="0.0.0.0",
+                      host="192.168.10.100",
                       port="5432")
     cur = conn.cursor()
     res = cur.execute(f"SELECT * FROM users WHERE tg_user_id = '{user.tg_user_id}'").fetchall()

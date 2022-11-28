@@ -37,22 +37,19 @@ async def cmd_start(message: types.Message):
                       port="5432")
     cur = conn.cursor()
     res = cur.execute(f"SELECT * FROM users WHERE tg_user_id = '{user.tg_user_id}'").fetchall()
-    full_name = res[0][2]
     if not res:
         cur.execute(f"INSERT INTO users(tg_user_id, user_name, date_joined, has_table) "
                     f"VALUES({user.tg_user_id},'{message.from_user.full_name}', '{user.date_joined}', False)")
         conn.commit()
-        res = cur.execute(f"SELECT * FROM users WHERE tg_user_id = '{user.tg_user_id}'").fetchall()
         conn.close()
         await message.answer(f"Добро пожаловать, {message.from_user.full_name}!", reply_markup=keyboard)
-    elif message.from_user.full_name != full_name:
-        cur.execute(f"UPDATE users SET user_name = '{message.from_user.full_name}'"
-                    f"WHERE tg_user_id = {user.tg_user_id}")
-        conn.commit()
-        conn.close()
-        await message.answer(text=f"Добро пожаловать снова, {message.from_user.full_name}!", reply_markup=keyboard)
     else:
-        conn.close()
+        full_name = res[0][2]
+        if message.from_user.full_name != full_name:
+            cur.execute(f"UPDATE users SET user_name = '{message.from_user.full_name}'"
+                        f"WHERE tg_user_id = {user.tg_user_id}")
+            conn.commit()
+            conn.close()
         await message.answer(text=f"Добро пожаловать снова, {message.from_user.full_name}!", reply_markup=keyboard)
 
 

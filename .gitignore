@@ -4,6 +4,7 @@
 /.idea
 /.idea/dataSources.xml
 /db_tests.py
+constants.py
 .ipynb_checkpoints
 *.xlsx
 *.csv

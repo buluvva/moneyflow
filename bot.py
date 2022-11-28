@@ -49,7 +49,7 @@ async def cmd_start(message: types.Message):
             cur.execute(f"UPDATE users SET user_name = '{message.from_user.full_name}'"
                         f"WHERE tg_user_id = {user.tg_user_id}")
             conn.commit()
-            conn.close()
+        conn.close()
         await message.answer(text=f"Добро пожаловать снова, {message.from_user.full_name}!", reply_markup=keyboard)
 
 

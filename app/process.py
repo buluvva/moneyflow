@@ -3,7 +3,8 @@ from aiogram.dispatcher.filters import Text
 from resources.models import User, datetime
 from constants import API_TOKEN
 import psycopg as ps
-from app.utils.validators import user_check, value_check, category_check
+from app.utils.validators import user_check, category_check
+from app.resources.exceptions import WrongValue
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
@@ -57,8 +58,9 @@ async def cmd_start(message: types.Message, cur):
 def insert_event(user_id, event_type, category_id, cash_value, cur):
     # check values
     user_check(user_id)
-    value_check(cash_value)
     category_check(category_id)
+    if isinstance(cash_value, float) is False:
+        raise WrongValue
 
     cur.execute(f"INSERT INTO events(user_id, event_type, cash_value, category_id, event_timestamp) "
                 f"VALUES ('{user_id}','{event_type}', {cash_value}, '{category_id}', '{datetime.now()}')")

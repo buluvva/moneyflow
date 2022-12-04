@@ -5,6 +5,6 @@ CREATE TABLE events
     event_type VARCHAR(255),
     cash_value float4,
     category_id INT REFERENCES categories (id),
-    timestamp VARCHAR(255)
+    event_timestamp VARCHAR(255)
 );
 

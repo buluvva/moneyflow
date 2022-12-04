@@ -3,6 +3,7 @@ from aiogram.dispatcher.filters import Text
 from resources.models import User, datetime
 from constants import API_TOKEN
 import psycopg as ps
+from app.utils.validators import user_check, value_check, category_check
 
 bot = Bot(token=API_TOKEN)
 dp = Dispatcher(bot)
@@ -13,7 +14,7 @@ async def test_db(message: types.Message):
     conn = ps.connect(dbname="data",
                       user="admin",
                       password="admin",
-                      host="192.168.10.100",
+                      host="0.0.0.0",
                       port="5432")
     cur = conn.cursor()
     res = cur.execute("SELECT * FROM test").fetchall()
@@ -33,7 +34,7 @@ async def cmd_start(message: types.Message):
     conn = ps.connect(dbname="data",
                       user="admin",
                       password="admin",
-                      host="192.168.10.100",
+                      host="0.0.0.0",
                       port="5432")
     cur = conn.cursor()
     res = cur.execute(f"SELECT * FROM users WHERE tg_user_id = '{user.tg_user_id}'").fetchall()
@@ -51,6 +52,24 @@ async def cmd_start(message: types.Message):
             conn.commit()
         conn.close()
         await message.answer(text=f"Добро пожаловать снова, {message.from_user.full_name}!", reply_markup=keyboard)
+
+
+def insert_event(user_id, event_type, category_id, cash_value):
+    conn = ps.connect(dbname="data",
+                      user="admin",
+                      password="admin",
+                      host="0.0.0.0",
+                      port="5432")
+    cur = conn.cursor()
+    # input data checks
+    user_check(user_id)
+    value_check(cash_value)
+    category_check(category_id)
+
+    cur.execute(f"INSERT INTO events(user_id, event_type, cash_value, category_id, event_timestamp) "
+                f"VALUES ('{user_id}','{event_type}', {cash_value}, '{category_id}', '{datetime.now()}')")
+    conn.commit()
+    conn.close()
 
 
 if __name__ == '__main__':

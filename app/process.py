@@ -2,14 +2,15 @@ from resources.models import datetime
 import psycopg as ps
 from app.utils.validators import user_check, category_check
 from app.resources.exceptions import WrongValue
+from settings import settings
 
 
 def dbconnect(func):
     def wrapper(*args):
         conn = ps.connect(dbname="data",
-                          user="admin",
-                          password="admin",
-                          host="0.0.0.0",
+                          user=settings.POSTGRES_LOGIN,
+                          password=settings.POSTGRES_PASSWORD,
+                          host=settings.POSTGRES_PATH,
                           port="5432")
         cur = conn.cursor()
 

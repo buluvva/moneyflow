@@ -8,8 +8,8 @@ class Settings(BaseSettings):
     TELEGRAM_API_KEY = ''
 
     POSTGRES_PATH: str = '0.0.0.0'
-    POSTGRES_LOGIN: str = 'admin'
-    POSTGRES_PASSWORD: str = 'admin'
+    POSTGRES_LOGIN: str = ''
+    POSTGRES_PASSWORD: str = ''
 
     GOOGLE_CLIENT_SECRET: dict = ''
     GOOGLE_SERVICE_SERCET: dict = ''

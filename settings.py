@@ -11,7 +11,7 @@ class Settings(BaseSettings):
     POSTGRES_PASSWORD: str = ''
 
     GOOGLE_CLIENT_SECRET: dict = ''
-    GOOGLE_SERVICE_SERCET: dict = ''
+    GOOGLE_SERVICE_SECRET: dict = ''
 
 
 settings = Settings()

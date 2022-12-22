@@ -1,10 +1,12 @@
 from aiogram import Bot, Dispatcher, executor, types
 from aiogram.dispatcher.filters import Text
-from resources.models import User, datetime
-from constants import API_TOKEN
-from app.process import dbconnect
 
-bot = Bot(token=API_TOKEN)
+from constants import API_TOKEN
+from settings import settings
+from app.process import dbconnect
+from resources.models import User, datetime
+
+bot = Bot(token=settings.TELEGRAM_API_KEY)
 dp = Dispatcher(bot)
 
 

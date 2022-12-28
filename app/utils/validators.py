@@ -1,6 +1,25 @@
 from app.resources.exceptions import UserNotFound, CategoryNotFound
 import psycopg as ps
-from app.process import dbconnect
+
+
+def dbconnect(func):
+    def wrapper(*args):
+        conn = ps.connect(dbname="data",
+                          user="admin",
+                          password="admin",
+                          host="0.0.0.0",
+                          port="5432")
+        cur = conn.cursor()
+        try:
+            res = func(*args, cur)
+            conn.commit()
+            conn.close()
+        except Exception as s:
+            conn.rollback()
+            conn.close()
+            raise s
+        return res
+    return wrapper
 
 
 @dbconnect

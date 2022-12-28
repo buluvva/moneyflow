@@ -7,3 +7,6 @@ CREATE TABLE IF NOT EXISTS users
     has_table bool
 );
 
+UPDATE users SET has_table = False WHERE tg_user_id = 258016847;
+select * from users;
+

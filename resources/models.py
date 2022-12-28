@@ -1,5 +1,6 @@
 from pydantic import BaseModel
 from datetime import datetime
+from aiogram.dispatcher.filters.state import State, StatesGroup
 
 
 class User(BaseModel):
@@ -9,6 +10,12 @@ class User(BaseModel):
 
     def dict(self, **kwargs):
         return super().dict(**kwargs)
+
+
+class Bills(StatesGroup):
+    waiting_for_group = State()
+    waiting_for_category = State()
+    waiting_for_move = State()
 
 
 

@@ -76,6 +76,11 @@ def grab_balance(user_id, cur):
     return df.loc['Баланс', 'Расх. за мес.']
 
 
-# df = add_spend(258016847, 'Еда', 10.2)
-
+@dbconnect
+def grab_buttons(cur):
+    res = []
+    cats = cur.execute(f"SELECT * FROM categories").fetchall()
+    for cat in cats:
+        res.append(cat[1])
+    return res
 

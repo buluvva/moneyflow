@@ -7,7 +7,6 @@
 constants.py
 .ipynb_checkpoints
 *.xlsx
-*.csv
 *.js
 *.jpg
 *.png

@@ -13,9 +13,9 @@ class User(BaseModel):
 
 
 class Bills(StatesGroup):
-    waiting_for_group = State()
     waiting_for_category = State()
     waiting_for_move = State()
+    waiting_for_value = State()
 
 
 

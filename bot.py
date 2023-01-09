@@ -13,11 +13,11 @@ dp = Dispatcher(bot, storage=MemoryStorage())
 buttons = grab_buttons()
 
 
-@dp.message_handler(commands="start")
+@dp.message_handler(commands="start", state=Bills.start)
 async def cmd_start(message: types.Message, state: FSMContext):
     keyboard = types.ReplyKeyboardMarkup(resize_keyboard=True)
-    buttons = ["Выбор категории расхода", "Узнать баланс", "Пополнить баланс"]
-    keyboard.add(*buttons)
+    moves = ["Выбор категории расхода", "Узнать баланс", "Пополнить баланс"]
+    keyboard.add(*moves)
     user = User(tg_user_id=message.from_user.id,
                 date_joined=datetime.now(),
                 has_table=False)
@@ -36,7 +36,7 @@ async def group_start(message: types.Message, state: FSMContext):
         await message.answer("Выберите категорию:", reply_markup=keyboard)
     elif message.text == 'Узнать баланс':
         await message.answer(grab_balance(message.from_user.id))
-        await state.finish()
+        await state.set_state(Bills.start.state)
 
 
 @dp.message_handler(state=Bills.waiting_for_category)
@@ -59,11 +59,11 @@ async def value_chosen(message: types.Message, state: FSMContext):
         return
     add_spend(message.from_user.id, user_data['category'], float(message.text))
     await message.answer(f"Вы добавили трату в категорию {user_data['category']} ")
-    await state.finish()
+    await state.set_state(Bills.start.state)
 
 
 def register_handlers(dp: Dispatcher):
-    dp.register_message_handler(cmd_start, commands="start", state="*")
+    dp.register_message_handler(cmd_start, commands="start", state=Bills.start)
     dp.register_message_handler(group_start, state=Bills.waiting_for_move)
     dp.register_message_handler(category_chosen, state=Bills.waiting_for_category)
     dp.register_message_handler(value_chosen, state=Bills.waiting_for_value)
